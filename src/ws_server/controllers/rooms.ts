@@ -4,8 +4,8 @@ import { createGame } from "./game";
 import { ResponseMessageType } from "../types";
 import { sendToAllConnections } from "../utils";
 
-export const createRoom = (playerId: UserID) => {
-  return db.createRoom(playerId);
+export const createRoom = (userId: UserID) => {
+  return db.createRoom(userId);
 };
 
 export const updateRooms = () => {
@@ -19,8 +19,9 @@ export const updateRooms = () => {
   sendToAllConnections(message);
 };
 
-export const addUserToRoom = (indexRoom: number, playerId: UserID) => {
-  const { roomUsers } = db.addUserToRoom(indexRoom, playerId);
+export const addUserToRoom = (indexRoom: number, userId: UserID) => {
+  if (db.getRoomById(indexRoom)?.roomUsers.some(id => userId === id)) return
+  const { roomUsers } = db.addUserToRoom(indexRoom, userId);
 
   if (roomUsers.length === 2) {
     createGame(roomUsers as [UserID, UserID]);

@@ -88,7 +88,6 @@ const finishGame = (gameId: number, indexPlayer: IndexPlayer) => {
     }),
     id: 0,
   });
-  db.deleteGame(gameId);
 };
 
 const checkIsRepeatShot = ({

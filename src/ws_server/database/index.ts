@@ -79,14 +79,14 @@ export class InMemoryDB {
     }));
   }
 
-  createRoom(playerId: UserID): Room {
-    const room: Room = { roomId: this.roomIdCounter++, roomUsers: [playerId] };
+  createRoom(userId: UserID): Room {
+    const room: Room = { roomId: this.roomIdCounter++, roomUsers: [userId] };
     this.rooms.push(room);
     return room;
   }
 
-  addUserToRoom(indexRoom: number, playerId: UserID): Room {
-    this.rooms[indexRoom]?.roomUsers.push(playerId);
+  addUserToRoom(indexRoom: number, userId: UserID): Room {
+    this.rooms[indexRoom]?.roomUsers.push(userId);
     return this.rooms[indexRoom]!;
   }
 
@@ -125,9 +125,6 @@ export class InMemoryDB {
     return game;
   }
 
-  deleteGame(gameId: number) {
-    this.games.splice(gameId, 1);
-  }
   getGame(gameId: number): Game {
     return this.games[gameId]!;
   }
