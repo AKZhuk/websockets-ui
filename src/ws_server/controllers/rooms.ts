@@ -20,7 +20,7 @@ export const updateRooms = () => {
 };
 
 export const addUserToRoom = (indexRoom: number, userId: UserID) => {
-  if (db.getRoomById(indexRoom)?.roomUsers.some(id => userId === id)) return
+  if (db.getRoomById(indexRoom)?.roomUsers.some((id) => userId === id)) return;
   const { roomUsers } = db.addUserToRoom(indexRoom, userId);
 
   if (roomUsers.length === 2) {

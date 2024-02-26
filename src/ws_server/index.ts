@@ -9,9 +9,10 @@ import {
 } from "./types";
 import { addUserToRoom, createRoom, updateRooms } from "./controllers/rooms";
 import { addShips, handleAttack, handleRandomAttach } from "./controllers/game";
-import { getUserIdByWs } from "./utils";
+import { generateID, getUserIdByWs } from "./utils";
+import { WebSocketBot } from "./bot";
 
-export const CONNECTIONS = new Map<WebSocket, UserID>();
+export const CONNECTIONS = new Map<WebSocket | WebSocketBot, UserID>();
 
 function handleMessage(message: Message<RequestMessageType>, ws: WebSocket) {
   const playerId = getUserIdByWs(ws);
@@ -48,6 +49,16 @@ function handleMessage(message: Message<RequestMessageType>, ws: WebSocket) {
     case "randomAttack":
       handleRandomAttach({ ...data });
       break;
+    case "single_play":
+      const bot = new WebSocketBot("ws://localhost:3000");
+      const roomIndex = createRoom(playerId!);
+      const botId = generateID();
+      CONNECTIONS.set(bot, botId);
+      setTimeout(() => {
+        addUserToRoom(roomIndex, botId);
+        updateRooms();
+      }, 2000);
+      break;
     default:
       console.log(`Unknown message type: ${message.type}`);
       break;
@@ -64,9 +75,9 @@ export const createWsServer = () => {
 
       ws.on("message", function incoming(message: string) {
         try {
-          const parsedMessage = JSON.parse(message) as Message<
-            RequestMessageType
-          >;
+          const parsedMessage = JSON.parse(
+            message
+          ) as Message<RequestMessageType>;
           handleMessage(parsedMessage, ws);
         } catch (error) {
           console.error("Error parsing message:", error);

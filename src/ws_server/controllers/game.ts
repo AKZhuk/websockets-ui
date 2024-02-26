@@ -43,7 +43,8 @@ export const startGame = (game: Game) => {
         id: 0,
       })
     );
-    getWSByUserId(userId)?.send(JSON.stringify(getTurn(index)));
+
+    getWSByUserId(userId)?.send(JSON.stringify(getTurn(game.idGame)));
   });
 };
 

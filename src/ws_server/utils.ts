@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { WebSocket } from "ws";
 import { CONNECTIONS } from "./index";
-import { Message, ResponseMessageType, UserID } from "./types";
+import { Coordinate, Message, ResponseMessageType, UserID } from "./types";
 
 export const generateID = () => {
   const id = randomUUID();
@@ -10,8 +10,8 @@ export const generateID = () => {
 
 export const getRandomCoordinates = () => {
   return {
-    x: Math.floor(Math.random() * 10),
-    y: Math.floor(Math.random() * 10),
+    x: Math.floor(Math.random() * 10) as Coordinate,
+    y: Math.floor(Math.random() * 10) as Coordinate,
   };
 };
 

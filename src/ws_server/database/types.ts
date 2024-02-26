@@ -1,4 +1,4 @@
-import { Coordinates, IndexPlayer, UserID } from "../types";
+import { Coordinate, Coordinates, IndexPlayer, UserID } from "../types";
 
 export interface Users {
   [key: UserID]: User;
@@ -28,10 +28,12 @@ export interface Winner {
 
 export interface Ship {
   position: {
-    x: number;
-    y: number;
+    x: Coordinate;
+    y: Coordinate;
   };
   direction: boolean;
   length: number;
   type: "small" | "medium" | "large" | "huge";
 }
+
+export type AttackStatus = "killed" | "shot" | "miss";

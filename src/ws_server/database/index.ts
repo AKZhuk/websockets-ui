@@ -63,6 +63,8 @@ export class InMemoryDB {
   }
 
   updateWinners(winnerId: UserID): Winner[] {
+    const user = this.getUserById(winnerId);
+    if (!user) return this.getAllWinners();
     if (this.winners[winnerId] === undefined) {
       this.winners[winnerId] = 0;
     } else {
@@ -79,10 +81,10 @@ export class InMemoryDB {
     }));
   }
 
-  createRoom(userId: UserID): Room {
+  createRoom(userId: UserID): number {
     const room: Room = { roomId: this.roomIdCounter++, roomUsers: [userId] };
     this.rooms.push(room);
-    return room;
+    return this.rooms.length - 1;
   }
 
   addUserToRoom(indexRoom: number, userId: UserID): Room {
